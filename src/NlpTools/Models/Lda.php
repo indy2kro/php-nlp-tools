@@ -462,7 +462,7 @@ class Lda
         return $a;
     }
 
-    private function logMultiBeta(float $a, float|int $y = 0, ?float $k = null): float
+    private function logMultiBeta(float|array $a, float|int $y = 0, ?float $k = null): float
     {
         if ($k === null) {
             $ay = array_map(

@@ -60,7 +60,7 @@ class ClusteringTestBase extends TestCase
                     imageline($im, 0, 0, $x * 400, $y * 400, $colors[$cid]);
                 } else {
                     // draw circle for euclidean
-                    imagefilledarc($im, $x, $y, 10, 10, 0, 360, $colors[$cid], 0);
+                    imagefilledarc($im, (int) $x, (int) $y, 10, 10, 0, 360, $colors[$cid], 0);
                 }
             }
         }
@@ -109,7 +109,7 @@ class ClusteringTestBase extends TestCase
 
         $draw_subcluster = function ($dendrogram, &$left) use (&$im, $d, $y, $d_v, $black, &$draw_subcluster, $blue): array {
             if (!is_array($dendrogram)) {
-                imagestring($im, 1, $left - (2 * strlen((string) $dendrogram)), $y, (string) $dendrogram, $black);
+                imagestring($im, 1, (int) ($left - (2 * strlen((string) $dendrogram))), (int) $y, (string) $dendrogram, $black);
                 $left += $d;
 
                 return [$left - $d, $y - 5];
@@ -118,9 +118,9 @@ class ClusteringTestBase extends TestCase
             [$l, $yl] = $draw_subcluster($dendrogram[0], $left);
             [$r, $yr] = $draw_subcluster($dendrogram[1], $left);
             $ym = min($yl, $yr) - $d_v;
-            imageline($im, $l, $yl, $l, $ym, $blue);
-            imageline($im, $r, $yr, $r, $ym, $blue);
-            imageline($im, $l, $ym, $r, $ym, $blue);
+            imageline($im, (int) $l, (int) $yl, (int) $l, (int) $ym, $blue);
+            imageline($im, (int) $r, (int) $yr, (int) $r, (int) $ym, $blue);
+            imageline($im, (int) $l, (int) $ym, (int) $r, (int) $ym, $blue);
 
             return [$l + ($r - $l) / 2, $ym];
         };

@@ -51,7 +51,8 @@ class LdaTest extends TestCase
             mkdir($this->path . '/data');
         }
 
-        if (count(new \DirectoryIterator($this->path . '/data')) < 502) {
+        $fileCount = count(glob($this->path . '/data/*'));
+        if ($fileCount < 502) {
             $this->createData();
         }
 
@@ -91,7 +92,7 @@ class LdaTest extends TestCase
         for ($i = 0; $i < 100; $i++) {
             $lda->gibbsSample($docs);
             $topics = $lda->getPhi();
-            echo $lda->getLogLikelihood(),PHP_EOL;
+
             foreach ($topics as $t => $topic) {
                 $name = sprintf($this->path . '/results/topic-%04d-%04d', $i, $t);
                 $max = max($topic);

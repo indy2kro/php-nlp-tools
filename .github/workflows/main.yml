@@ -75,6 +75,6 @@ jobs:
         run: vendor/bin/rector --dry-run
 
       - name: Execute PHP Unit
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit --exclude-group Slow
 
 
