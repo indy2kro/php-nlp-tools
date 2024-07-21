@@ -19,6 +19,7 @@ class StemmerTestBase extends TestCase
             if ($word === false) {
                 continue;
             }
+
             $stem = $stems->current();
             $this->assertEquals(
                 $stemmer->stem($word),

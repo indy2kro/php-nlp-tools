@@ -618,7 +618,7 @@ class PorterStemmer extends Stemmer
     {
         $this->j = 0;
         $this->b = $word;
-        $this->k = strlen((string) $word) - 1;
+        $this->k = strlen($word) - 1;
         if ($this->k <= 1) {
             return $word;
         }

@@ -24,7 +24,7 @@ class ClusteringTestBase extends TestCase
     /**
      * Return a gd handle with a visualization of the clustering or null in case gd is not present.
      */
-    protected function drawClusters(TrainingSet $tset, $clusters, $centroids = null, $lines = false, $emphasize = 0, $w = 300, $h = 200): null|\GdImage|false
+    protected function drawClusters(TrainingSet $trainingSet, $clusters, $centroids = null, $lines = false, $emphasize = 0, $w = 300, $h = 200): null|\GdImage|false
     {
         if (!function_exists('imagecreate')) {
             return null;
@@ -42,7 +42,7 @@ class ClusteringTestBase extends TestCase
         imagefill($im, 0, 0, $white);
         foreach ($clusters as $cid => $cluster) {
             foreach ($cluster as $idx) {
-                $data = $tset[$idx]->getDocumentData();
+                $data = $trainingSet[$idx]->getDocumentData();
                 if ($emphasize > 0) {
                     imagefilledarc($im, $data['x'], $data['y'], $emphasize, $emphasize, 0, 360, $colors[$cid], 0);
                 } else {
@@ -72,7 +72,7 @@ class ClusteringTestBase extends TestCase
      * Return a gd handle with a visualization of the given dendrogram or null
      * if gd is not present.
      */
-    protected function drawDendrogram(TrainingSet $tset, $dendrogram, $w = 300, $h = 200): null|\GdImage|false
+    protected function drawDendrogram(TrainingSet $trainingSet, $dendrogram, $w = 300, $h = 200): null|\GdImage|false
     {
         if (!function_exists('imagecreate')) {
             return null;
@@ -87,7 +87,7 @@ class ClusteringTestBase extends TestCase
         // padding 5%
         $padding = round(0.05 * $w);
         // equally distribute
-        $d = ($w - 2 * $padding) / count($tset);
+        $d = ($w - 2 * $padding) / count($trainingSet);
         $count_depth = function ($a) use (&$count_depth): int|float {
             if (is_array($a)) {
                 return max(

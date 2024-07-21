@@ -16,7 +16,7 @@ class HammingDistanceTest extends TestCase
         $B = "FGHIJ";
         $C = "10101";
         $D = "11111";
-        
+
         $a = [$A];
         $b = [$B];
         $c = [$C];

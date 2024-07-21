@@ -19,8 +19,8 @@ class HammingDistance implements DistanceInterface
         $aa = $a[0];
         $bb = $b[0];
 
-        $l1 = strlen($aa);
-        $l2 = strlen($bb);
+        $l1 = strlen((string) $aa);
+        $l2 = strlen((string) $bb);
         $l = min($l1, $l2);
         $d = 0;
         for ($i = 0; $i < $l; $i++) {
