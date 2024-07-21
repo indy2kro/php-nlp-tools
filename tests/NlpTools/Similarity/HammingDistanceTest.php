@@ -16,16 +16,21 @@ class HammingDistanceTest extends TestCase
         $B = "FGHIJ";
         $C = "10101";
         $D = "11111";
+        
+        $a = [$A];
+        $b = [$B];
+        $c = [$C];
+        $d = [$D];
 
         $this->assertEquals(
             max(strlen($A), strlen($B)),
-            $hammingDistance->dist($A, $B),
+            $hammingDistance->dist($a, $b),
             "Two completely dissimilar strings should have distance equal to max(strlen(\$A),strlen(\$B))"
         );
 
         $this->assertEquals(
             2,
-            $hammingDistance->dist($C, $D),
+            $hammingDistance->dist($c, $d),
             "10101 ~ 11111 have a hamming distance = 2"
         );
     }

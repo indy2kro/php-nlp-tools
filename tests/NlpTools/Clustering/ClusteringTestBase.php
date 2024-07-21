@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace NlpTools\Clustering;
 
 use PHPUnit\Framework\TestCase;
+use NlpTools\Documents\TrainingSet;
 
 class ClusteringTestBase extends TestCase
 {
@@ -23,7 +24,7 @@ class ClusteringTestBase extends TestCase
     /**
      * Return a gd handle with a visualization of the clustering or null in case gd is not present.
      */
-    protected function drawClusters(array $tset, $clusters, $centroids = null, $lines = false, $emphasize = 0, $w = 300, $h = 200): null|\GdImage|false
+    protected function drawClusters(TrainingSet $tset, $clusters, $centroids = null, $lines = false, $emphasize = 0, $w = 300, $h = 200): null|\GdImage|false
     {
         if (!function_exists('imagecreate')) {
             return null;
@@ -71,7 +72,7 @@ class ClusteringTestBase extends TestCase
      * Return a gd handle with a visualization of the given dendrogram or null
      * if gd is not present.
      */
-    protected function drawDendrogram($tset, $dendrogram, $w = 300, $h = 200): null|\GdImage|false
+    protected function drawDendrogram(TrainingSet $tset, $dendrogram, $w = 300, $h = 200): null|\GdImage|false
     {
         if (!function_exists('imagecreate')) {
             return null;

@@ -33,11 +33,11 @@ class ClassifierBasedTransformationTest extends TestCase implements ClassifierIn
 
         $this->assertEquals(
             "odd",
-            $classifierBasedTransformation->transform(3)
+            $classifierBasedTransformation->transform('3')
         );
         $this->assertEquals(
             "even",
-            $classifierBasedTransformation->transform(4)
+            $classifierBasedTransformation->transform('4')
         );
     }
 }

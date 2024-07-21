@@ -30,18 +30,15 @@ class IdfTest extends TestCase
 
         $this->assertEquals(
             0.405,
-            $idf["c"],
-            null
+            round($idf["c"], 3),
         );
         $this->assertEquals(
-            1.098,
-            $idf["b"],
-            null
+            1.099,
+            round($idf["b"], 3),
         );
         $this->assertEquals(
-            1.098,
-            $idf["non-existing"],
-            null
+            1.099,
+            round($idf["non-existing"], 3),
         );
         $this->assertEquals(
             0,

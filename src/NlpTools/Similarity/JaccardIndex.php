@@ -14,10 +14,10 @@ class JaccardIndex implements SimilarityInterface, DistanceInterface
      */
     public function similarity(array &$a, array &$b): float
     {
-        $a = array_fill_keys($a, 1);
-        $b = array_fill_keys($b, 1);
+        $aa = array_fill_keys($a, 1);
+        $bb = array_fill_keys($b, 1);
 
-        $intersect = count(array_intersect_key($a, $b));
+        $intersect = count(array_intersect_key($aa, $bb));
         $union = count(array_fill_keys(array_merge($a, $b), 1));
 
         return $intersect / $union;

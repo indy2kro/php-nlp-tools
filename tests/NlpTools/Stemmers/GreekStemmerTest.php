@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace NlpTools\Stemmers;
 
+use NlpTools\Stemmers\GreekStemmer;
 use PHPUnit\Framework\TestCase;
 
 class GreekStemmerTest extends StemmerTestBase

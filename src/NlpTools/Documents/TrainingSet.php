@@ -26,7 +26,7 @@ class TrainingSet implements \Iterator, \ArrayAccess, \Countable
     protected int $keytype = self::CLASS_AS_KEY;
 
     // When iterated upon the currentDocument
-    protected DocumentInterface $currentDocument;
+    protected DocumentInterface|false $currentDocument;
 
     /**
      * Add a document to the set.

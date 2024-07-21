@@ -24,7 +24,7 @@ namespace NlpTools\Stemmers;
 class PorterStemmer extends Stemmer
 {
     // isset is faster than switch in php even for one character switches
-    protected static $vowels = ['a' => 'a', 'e' => 'e', 'i' => 'i', 'o' => 'o', 'u' => 'u'];
+    protected static array $vowels = ['a' => 'a', 'e' => 'e', 'i' => 'i', 'o' => 'o', 'u' => 'u'];
 
     /**
      * Quoting from the original C implementation.
@@ -44,7 +44,7 @@ class PorterStemmer extends Stemmer
      * the stem.
      *
      */
-    private array $b;
+    private string $b;
 
     private int $k;
 
@@ -150,7 +150,7 @@ class PorterStemmer extends Stemmer
             return false;
         }
 
-        if ($this->b[$j] != $this->b[$j - 1]) {
+        if ($this->b[$j] !== $this->b[$j - 1]) {
             return false;
         }
 
@@ -182,9 +182,9 @@ class PorterStemmer extends Stemmer
      * $length is passed as a parameter because it provides a speedup.
      *
      */
-    protected function ends(array $s, int $length): bool
+    protected function ends(string $s, int $length): bool
     {
-        if ($s[$length - 1] != $this->b[$this->k]) {
+        if ($s[$length - 1] !== $this->b[$this->k]) {
             return false;
         }
 
@@ -192,8 +192,7 @@ class PorterStemmer extends Stemmer
             return false;
         }
 
-        // @phpstan-ignore-next-line
-        if (substr_compare((string) $this->b, (string) $s, $this->k - $length + 1, $length) != 0) {
+        if (substr_compare($this->b, $s, $this->k - $length + 1, $length) !== 0) {
             return false;
         }
 
@@ -601,7 +600,7 @@ class PorterStemmer extends Stemmer
         $this->j = $this->k;
         if ($this->b[$this->k] === 'e') {
             $a = $this->m();
-            if ($a > 1 || $a == 1 && !$this->cvc($this->k - 1)) {
+            if ($a > 1 || $a === 1 && !$this->cvc($this->k - 1)) {
                 $this->k--;
             }
         }
@@ -615,7 +614,7 @@ class PorterStemmer extends Stemmer
      * The word must be a lower case one byte per character string (in
      * English).
      */
-    public function stem($word): string
+    public function stem(string $word): string
     {
         $this->j = 0;
         $this->b = $word;
@@ -631,7 +630,6 @@ class PorterStemmer extends Stemmer
         $this->step4();
         $this->step5();
 
-        // @phpstan-ignore-next-line
-        return substr((string) $this->b, 0, $this->k + 1);
+        return substr($this->b, 0, $this->k + 1);
     }
 }

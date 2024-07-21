@@ -26,7 +26,7 @@ class FreqDistTest extends TestCase
     {
         $freqDist = new FreqDist(["time", "flies", "like", "an", "arrow", "time", "flies", "like", "what"]);
         $this->assertEquals(1, $freqDist->getTotalByToken('an'));
-        $this->assertEquals(0.111, $freqDist->getTokenWeight('an'));
+        $this->assertEquals(0.111, round($freqDist->getTokenWeight('an'), 3));
     }
 
     public function testEmptyHapaxesFreqDist(): void

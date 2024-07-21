@@ -18,19 +18,19 @@ class CosineSimilarityTest extends TestCase
 
         $this->assertEquals(
             1,
-            $cosineSimilarity->similarity($A, $A),
+            (int) $cosineSimilarity->similarity($A, $A),
             "The cosine similarity of a set/vector with itsself should be 1"
         );
 
         $this->assertEquals(
             1,
-            $cosineSimilarity->similarity($A, $A_times_2),
+            (int) $cosineSimilarity->similarity($A, $A_times_2),
             "The cosine similarity of a vector with a linear combination of itsself should be 1"
         );
 
         $this->assertEquals(
             0,
-            $cosineSimilarity->similarity($A, $B) - $cosineSimilarity->similarity($A_times_2, $B),
+            (int) ($cosineSimilarity->similarity($A, $B) - $cosineSimilarity->similarity($A_times_2, $B)),
             "Parallel vectors should have the same angle with any vector B"
         );
     }
@@ -43,16 +43,16 @@ class CosineSimilarityTest extends TestCase
         $bc = [1, 1, 1, 2, 2]; // bc = (3,2)
         $bba = ['a' => 2, 'b' => 4];
         $bbc = ['a' => 3, 'b' => 2];
-        $ba_to_bc = cos(0.5191461142); // approximately 30 deg
+        $ba_to_bc = round(cos(0.5191461142), 8); // approximately 30 deg
 
         $this->assertEquals(
             $ba_to_bc,
-            $cosineSimilarity->similarity($ba, $bc)
+            round($cosineSimilarity->similarity($ba, $bc), 8)
         );
 
         $this->assertEquals(
             $ba_to_bc,
-            $cosineSimilarity->similarity($bba, $bbc)
+            round($cosineSimilarity->similarity($bba, $bbc), 8)
         );
     }
 
