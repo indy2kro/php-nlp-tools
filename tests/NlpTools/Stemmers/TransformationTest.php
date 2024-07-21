@@ -6,6 +6,7 @@ namespace NlpTools\Stemmers;
 
 use NlpTools\Documents\TokensDocument;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TransformationTest extends TestCase
 {
@@ -17,9 +18,7 @@ class TransformationTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provideStemmers
-     */
+    #[DataProvider('provideStemmers')]
     public function testStemmer(Stemmer $stemmer): void
     {
         $tokens = explode(" ", "this renowned monster who had come off victorious in a hundred fights with his pursuers was an old bull whale of prodigious size and strength from the effect of age or more probably from a freak of nature a singular consequence had resulted he was white as wool");

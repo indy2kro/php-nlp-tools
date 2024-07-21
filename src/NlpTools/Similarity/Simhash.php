@@ -29,7 +29,7 @@ class Simhash implements SimilarityInterface, DistanceInterface
         return str_replace(self::$search, self::$replace, md5($w));
     }
 
-    public function __construct(protected int $length, protected $h = 'self::md5')
+    public function __construct(protected int $length, protected $h = [self::class, 'md5'])
     {
     }
 

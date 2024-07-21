@@ -24,7 +24,7 @@ class ClusteringTestBase extends TestCase
     /**
      * Return a gd handle with a visualization of the clustering or null in case gd is not present.
      */
-    protected function drawClusters(TrainingSet $trainingSet, $clusters, $centroids = null, $lines = false, $emphasize = 0, $w = 300, $h = 200): null|\GdImage|false
+    protected function drawClusters(TrainingSet $trainingSet, $clusters, $centroids = null, $lines = false, $emphasize = 0, $w = 300, $h = 200): mixed
     {
         if (!function_exists('imagecreate')) {
             return null;

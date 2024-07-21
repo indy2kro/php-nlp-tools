@@ -9,6 +9,7 @@ use NlpTools\Documents\TrainingSet;
 use NlpTools\Documents\EuclideanPoint;
 use NlpTools\Similarity\Euclidean;
 use NlpTools\Clustering\CentroidFactories\Euclidean as EuclidCF;
+use PHPUnit\Framework\Attributes\Group;
 
 class KmeansTest extends ClusteringTestBase
 {
@@ -23,6 +24,7 @@ class KmeansTest extends ClusteringTestBase
         }
     }
 
+    #[Group('Slow')]
     public function testEuclideanClustering(): void
     {
         $kMeans = new KMeans(
@@ -56,7 +58,7 @@ class KmeansTest extends ClusteringTestBase
             false // lines or not
         );
 
-        if ($im !== null) {
+        if ($im !== null && $im !== false) {
             imagepng($im, TEST_DATA_DIR . "/Clustering/KmeansTest/clusters.png");
         }
 

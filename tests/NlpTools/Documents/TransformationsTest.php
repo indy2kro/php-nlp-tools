@@ -9,6 +9,7 @@ use NlpTools\Documents\TokensDocument;
 use NlpTools\Documents\TrainingDocument;
 use NlpTools\Documents\WordDocument;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TransformationsTest extends TestCase
 {
@@ -17,9 +18,7 @@ class TransformationsTest extends TestCase
         return [[["1", "2", "3", "4", "5", "6", "7"]]];
     }
 
-    /**
-     * @dataProvider provideTokens
-     */
+    #[DataProvider('provideTokens')]
     public function testTokensDocument(array $tokens): void
     {
         $tokensDocument = new TokensDocument($tokens);
@@ -42,13 +41,11 @@ class TransformationsTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider provideTokens
-     */
+    #[DataProvider('provideTokens')]
     public function testWordDocument(array $tokens): void
     {
         $identityTransformer = new IdentityTransformer();
-        $wordDocument = new WordDocument($tokens, count($tokens) / 2, 2);
+        $wordDocument = new WordDocument($tokens, (int) (count($tokens) / 2), 2);
         $correct = $wordDocument->getDocumentData();
         $wordDocument->applyTransformation($identityTransformer);
         $this->assertEquals(
@@ -56,7 +53,7 @@ class TransformationsTest extends TestCase
             $wordDocument->getDocumentData()
         );
 
-        $trainingDocument = new TrainingDocument("", new WordDocument($tokens, count($tokens) / 2, 2));
+        $trainingDocument = new TrainingDocument("", new WordDocument($tokens, (int) (count($tokens) / 2), 2));
         $trainingDocument->applyTransformation($identityTransformer);
         $this->assertEquals(
             $correct,

@@ -18,7 +18,7 @@ class WordDocument implements DocumentInterface
 
     protected array $after = [];
 
-    public function __construct(array $tokens, $index, $context)
+    public function __construct(array $tokens, int $index, int $context)
     {
         $this->word = $tokens[$index];
         for ($start = max($index - $context, 0); $start < $index; $start++) {

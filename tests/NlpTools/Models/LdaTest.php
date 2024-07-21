@@ -10,6 +10,7 @@ use NlpTools\Documents\TrainingSet;
 use NlpTools\Documents\TokensDocument;
 use NlpTools\FeatureFactories\DataAsFeatures;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Functional testing of the Latent Dirichlet Allocation
@@ -63,10 +64,8 @@ class LdaTest extends TestCase
         $this->loadData();
     }
 
-    /**
-     * @group Slow
-     * @group VerySlow
-     */
+    #[Group('Slow')]
+    #[Group('VerySlow')]
     public function testLda(): void
     {
         $lda = new Lda(
