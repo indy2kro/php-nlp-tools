@@ -55,6 +55,15 @@ jobs:
           path: vendor
           key: ${{ runner.OS }}-build-${{ hashFiles('**/composer.lock') }}
 
+      - name: Install Dependencies
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: |
+          composer update --${{ matrix.dependency-stability }} --prefer-dist --no-interaction --no-suggest
+
+      - name: Update Dependencies with latest stable
+        if: matrix.dependency-stability == 'prefer-stable'
+        run: composer update --prefer-stable
+
       # Code quality
       - name: Execute Code Sniffer
         run: vendor/bin/phpcs
