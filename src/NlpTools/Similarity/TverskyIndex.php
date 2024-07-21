@@ -34,13 +34,13 @@ class TverskyIndex implements SimilarityInterface, DistanceInterface
         $alpha = $this->alpha;
         $beta = $this->beta;
 
-        $a = array_fill_keys($a, 1);
-        $b = array_fill_keys($b, 1);
+        $aa = array_fill_keys($a, 1);
+        $bb = array_fill_keys($b, 1);
 
-        $min = min(count(array_diff_key($a, $b)), count(array_diff_key($b, $a)));
-        $max = max(count(array_diff_key($a, $b)), count(array_diff_key($b, $a)));
+        $min = min(count(array_diff_key($aa, $bb)), count(array_diff_key($bb, $aa)));
+        $max = max(count(array_diff_key($aa, $bb)), count(array_diff_key($bb, $aa)));
 
-        $intersect = count(array_intersect_key($a, $b));
+        $intersect = count(array_intersect_key($aa, $bb));
 
         return $intersect / ($intersect + ($beta * ($alpha * $min + $max * (1 - $alpha)) ));
     }

@@ -22,8 +22,8 @@ class StemmerTestBase extends TestCase
 
             $stem = $stems->current();
             $this->assertEquals(
-                $stemmer->stem($word),
                 $stem,
+                $stemmer->stem($word),
                 sprintf("The stem for '%s' should be '%s' not '%s'", $word, $stem, $stemmer->stem($word))
             );
             $stems->next();
