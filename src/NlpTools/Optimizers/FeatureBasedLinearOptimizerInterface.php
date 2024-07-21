@@ -16,8 +16,6 @@ interface FeatureBasedLinearOptimizerInterface
      * set of weights with any target. Ex.: If we were training a maxent
      * model we would try to maximize the CLogLik that can be calculated
      * from this array.
-     *
-     * @return array The parameteres $l
      */
     public function optimize(array &$featureArray): array;
 }

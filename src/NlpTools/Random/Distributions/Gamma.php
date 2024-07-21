@@ -18,9 +18,9 @@ class Gamma extends AbstractDistribution
 
     protected Gamma $gamma;
 
-    protected float|int $shape;
+    protected float $shape;
 
-    public function __construct($shape, protected $scale, GeneratorInterface $generator = null)
+    public function __construct(float $shape, protected float $scale, GeneratorInterface $generator = null)
     {
         parent::__construct($generator);
         $this->shape = abs($shape);
