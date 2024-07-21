@@ -1,6 +1,6 @@
 {
     "name": "nlp-tools/nlp-tools",
-    "description": "NlpTools is a set of php 5.3+ classes for beginner to semi advanced natural language processing work.",
+    "description": "NlpTools is a set of php 8.1+ classes for beginner to semi advanced natural language processing work.",
     "keywords": ["nlp","machine learning"],
     "license": "WTFPL",
     "authors": [
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-0": {
-                "NlpTools\\": "src/"
+            "NlpTools\\": "src/"
         }
     }
 }
