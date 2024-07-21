@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace NlpTools\Analysis;
 
 use NlpTools\Documents\TokensDocument;
@@ -9,23 +12,19 @@ use NlpTools\Documents\TokensDocument;
  */
 class FreqDist
 {
-
     /**
      * An associative array that holds all the frequencies per token
-     * @var array
      */
-    protected $keyValues = array();
+    protected array $keyValues = [];
 
-    /**
+/**
      * The total number of tokens originally passed into FreqDist
-     * @var int
      */
-    protected $totalTokens = null;
+    protected int $totalTokens;
 
     /**
      * This sorts the token meta data collection right away so use
      * frequency distribution data can be extracted.
-     * @param array $tokens
      */
     public function __construct(array $tokens)
     {
@@ -35,18 +34,16 @@ class FreqDist
 
     /**
      * Get the total number of tokens in this tokensDocument
-     * @return int
      */
-    public function getTotalTokens()
+    public function getTotalTokens(): int
     {
         return $this->totalTokens;
     }
 
     /**
      * Internal function for summarizing all the data into a key value store
-     * @param array $tokens The set of tokens passed into the constructor
      */
-    protected function preCompute(array &$tokens)
+    protected function preCompute(array &$tokens): void
     {
         //count all the tokens up and put them in a key value store
         $this->keyValues = array_count_values($tokens);
@@ -55,93 +52,82 @@ class FreqDist
 
     /**
      * Return the weight of a single token
-     * @return float
      */
-    public function getWeightPerToken()
+    public function getWeightPerToken(): float
     {
         return 1 / $this->getTotalTokens();
     }
 
     /**
      * Return get the total number of unique tokens
-     * @return int
      */
-    public function getTotalUniqueTokens()
+    public function getTotalUniqueTokens(): int
     {
         return count($this->keyValues);
     }
 
     /**
      * Return the sorted keys by frequency desc
-     * @return array
      */
-    public function getKeys()
+    public function getKeys(): array
     {
         return array_keys($this->keyValues);
     }
 
     /**
      * Return the sorted values by frequency desc
-     * @return array
      */
-    public function getValues()
+    public function getValues(): array
     {
         return array_values($this->keyValues);
     }
 
     /**
      * Return the full key value store
-     * @return array
      */
-    public function getKeyValues()
+    public function getKeyValues(): array
     {
         return $this->keyValues;
     }
 
     /**
      * Return a token's count
-     * @param string $string
-     * @return mixed
      */
-    public function getTotalByToken($string)
+    public function getTotalByToken(string $string): float|false
     {
         $array = $this->keyValues;
-        if(array_key_exists($string, $array)) {
+        if (array_key_exists($string, $array)) {
             return $array[$string];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Return a token's weight (for user's own tf-idf/pdf/iduf implem)
-     * @param string $string
-     * @return mixed
      */
-    public function getTokenWeight($string)
+    public function getTokenWeight(string $string): float|false
     {
-        if($this->getTotalByToken($string)){
-            return $this->getTotalByToken($string)/$this->getTotalTokens();
-        } else {
-            return false;
+        if ($this->getTotalByToken($string)) {
+            return $this->getTotalByToken($string) / $this->getTotalTokens();
         }
+
+        return false;
     }
 
     /**
-     *
      * Returns an array of tokens that occurred once
      * @todo This is an inefficient approach
-     * @return array
      */
-    public function getHapaxes()
+    public function getHapaxes(): array
     {
-        $samples = array();
+        $samples = [];
         foreach ($this->getKeyValues() as $sample => $count) {
             if ($count == 1) {
                 $samples[] = $sample;
             }
         }
+
         return $samples;
     }
-
 }

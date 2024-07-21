@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NlpTools\Clustering\CentroidFactories;
 
 /**
@@ -9,44 +11,41 @@ namespace NlpTools\Clustering\CentroidFactories;
  */
 class MeanAngle extends Euclidean
 {
-    protected function normalize(array $v)
+    protected function normalize(array $v): array
     {
         $norm = array_reduce(
             $v,
-            function ($v,$w) {
-                return $v+$w*$w;
-            }
+            fn($v, $w): float|int => $v + $w * $w
         );
         $norm = sqrt($norm);
 
         return array_map(
-            function ($vi) use ($norm) {
-                return $vi/$norm;
-            },
+            fn($vi): float => $vi / $norm,
             $v
         );
     }
 
-    public function getCentroid(array &$docs, array $choose=array())
+    public function getCentroid(array &$docs, array $choose = []): array
     {
-        if (empty($choose))
-            $choose = range(0,count($docs)-1);
+        if ($choose === []) {
+            $choose = range(0, count($docs) - 1);
+        }
+
         $cnt = count($choose);
-        $v = array();
+        $v = [];
         foreach ($choose as $idx) {
             $d = $this->normalize($this->getVector($docs[$idx]));
-            foreach ($d as $i=>$vi) {
-                if (!isset($v[$i]))
+            foreach ($d as $i => $vi) {
+                if (!isset($v[$i])) {
                     $v[$i] = $vi;
-                else
+                } else {
                     $v[$i] += $vi;
+                }
             }
         }
 
         return array_map(
-            function ($vi) use ($cnt) {
-                return $vi/$cnt;
-            },
+            fn($vi): int|float => $vi / $cnt,
             $v
         );
     }

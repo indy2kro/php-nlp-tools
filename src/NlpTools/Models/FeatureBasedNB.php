@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NlpTools\Models;
 
-use \NlpTools\FeatureFactories\FeatureFactoryInterface;
-use \NlpTools\Documents\TrainingSet;
+use NlpTools\FeatureFactories\FeatureFactoryInterface;
+use NlpTools\Documents\TrainingSet;
 
 /**
  * Implement a MultinomialNBModel by training on a TrainingSet with a
@@ -12,31 +14,21 @@ use \NlpTools\Documents\TrainingSet;
 class FeatureBasedNB implements MultinomialNBModelInterface
 {
     // computed prior probabilities
-    protected $priors;
-    // computed conditional probabilites
-    protected $condprob;
-    // probability for each unknown word in a class a/(len(terms[class])+a*len(V))
-    protected $unknown;
+    protected array $priors = [];
 
-    public function __construct()
-    {
-        $this->priors = array();
-        $this->condprob = array();
-        $this->unknown = array();
-    }
+    // computed conditional probabilites
+    protected array $condprob = [];
+
+    // probability for each unknown word in a class a/(len(terms[class])+a*len(V))
+    protected array $unknown = [];
 
     /**
      * Return the prior probability of class $class
      * P(c) as computed by the training data
-     *
-     * @param  string $class
-     * @return float  prior probability
      */
-    public function getPrior($class)
+    public function getPrior(string $class): float
     {
-        return isset($this->priors[$class])
-            ? $this->priors[$class]
-            : 0;
+        return $this->priors[$class] ?? 0;
     }
 
     /**
@@ -44,19 +36,14 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      *
      * @param  string $term  The term (word, feature id, ...)
      * @param  string $class The class
-     * @return float
      */
-    public function getCondProb($term,$class)
+    public function getCondProb(string $term, string $class): float
     {
         if (!isset($this->condprob[$term][$class])) {
-            
-            return isset($this->unknown[$class])
-                ? $this->unknown[$class]
-                : 0;
-
-        } else {
-            return $this->condprob[$term][$class];
+            return $this->unknown[$class] ?? 0;
         }
+
+        return $this->condprob[$term][$class];
     }
 
     /**
@@ -67,38 +54,38 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      * It can be used for incremental training. It is not meant to be used
      * with the same training set twice.
      *
-     * @param array                   $train_ctx The previous training context
-     * @param FeatureFactoryInterface $ff        A feature factory to compute features from a training document
-     * @param TrainingSet The training set
-     * @param  integer $a_smoothing The parameter for additive smoothing. Defaults to add-one smoothing.
+     * @param array                   $trainContext The previous training context
+     * @param FeatureFactoryInterface $featureFactory A feature factory to compute features from a training document
+     * @param TrainingSet $trainingSet The training set
+     * @param  integer $additiveSmoothing The parameter for additive smoothing. Defaults to add-one smoothing.
      * @return array   Return a training context to be used for further incremental training,
      *               although this is not necessary since the changes also happen in place
      */
-    public function train_with_context(array &$train_ctx, FeatureFactoryInterface $ff, TrainingSet $tset, $a_smoothing=1)
+    public function trainWithContext(array &$trainContext, FeatureFactoryInterface $featureFactory, TrainingSet $trainingSet, int $additiveSmoothing = 1): array
     {
         $this->countTrainingSet(
-                                $ff,
-                                $tset,
-                                $train_ctx['termcount_per_class'],
-                                $train_ctx['termcount'],
-                                $train_ctx['ndocs_per_class'],
-                                $train_ctx['voc'],
-                                $train_ctx['ndocs']
-                            );
+            $featureFactory,
+            $trainingSet,
+            $trainContext['termcount_per_class'],
+            $trainContext['termcount'],
+            $trainContext['ndocs_per_class'],
+            $trainContext['voc'],
+            $trainContext['ndocs']
+        );
 
-        $voccount = count($train_ctx['voc']);
+        $voccount = count($trainContext['voc']);
 
         $this->computeProbabilitiesFromCounts(
-                                    $tset->getClassSet(),
-                                    $train_ctx['termcount_per_class'],
-                                    $train_ctx['termcount'],
-                                    $train_ctx['ndocs_per_class'],
-                                    $train_ctx['ndocs'],
-                                    $voccount,
-                                    $a_smoothing
-                                );
+            $trainingSet->getClassSet(),
+            $trainContext['termcount_per_class'],
+            $trainContext['termcount'],
+            $trainContext['ndocs_per_class'],
+            $trainContext['ndocs'],
+            $voccount,
+            $additiveSmoothing
+        );
 
-        return $train_ctx;
+        return $trainContext;
     }
 
     /**
@@ -111,24 +98,18 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      * More information on the algorithm can be found at
      * http://nlp.stanford.edu/IR-book/html/htmledition/naive-bayes-text-classification-1.html
      *
-     * @param FeatureFactoryInterface A feature factory to compute features from a training document
-     * @param TrainingSet The training set
-     * @param  integer $a_smoothing The parameter for additive smoothing. Defaults to add-one smoothing.
+     * @param FeatureFactoryInterface $featureFactory A feature factory to compute features from a training document
+     * @param TrainingSet $trainingSet The training set
+     * @param  integer $additiveSmoothing The parameter for additive smoothing. Defaults to add-one smoothing.
      * @return array   Return a training context to be used for incremental training
      */
-    public function train(FeatureFactoryInterface $ff, TrainingSet $tset, $a_smoothing=1)
+    public function train(FeatureFactoryInterface $featureFactory, TrainingSet $trainingSet, int $additiveSmoothing = 1): array
     {
-        $class_set = $tset->getClassSet();
+        $class_set = $trainingSet->getClassSet();
 
-        $ctx = array(
-            'termcount_per_class'=>array_fill_keys($class_set,0),
-            'termcount'=>array_fill_keys($class_set,array()),
-            'ndocs_per_class'=>array_fill_keys($class_set,0),
-            'voc'=>array(),
-            'ndocs'=>0
-        );
+        $ctx = ['termcount_per_class' => array_fill_keys($class_set, 0), 'termcount' => array_fill_keys($class_set, []), 'ndocs_per_class' => array_fill_keys($class_set, 0), 'voc' => [], 'ndocs' => 0];
 
-        return $this->train_with_context($ctx,$ff,$tset,$a_smoothing);
+        return $this->trainWithContext($ctx, $featureFactory, $trainingSet, $additiveSmoothing);
     }
 
     /**
@@ -136,33 +117,37 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      * by reference and they are filled in this function. Useful for not
      * making copies of big arrays.
      *
-     * @param  FeatureFactoryInterface $ff                  A feature factory to create the features for each document in the set
-     * @param  TrainingSet             $tset                The training set (collection of labeled documents)
-     * @param  array                   $termcount_per_class The count of occurences of each feature in each class
+     * @param FeatureFactoryInterface $featureFactory A feature factory to create the features for each document in the set
+     * @param TrainingSet $trainingSet The training set (collection of labeled documents)
+     * @param  array                   $termcountPerClass The count of occurences of each feature in each class
      * @param  array                   $termcount           The total count of occurences of each term
-     * @param  array                   $ndocs_per_class     The total number of documents per class
+     * @param  array                   $ndocsPerClass     The total number of documents per class
      * @param  array                   $voc                 A set of the found features
      * @param  integer                 $ndocs               The number of documents
      * @return void
      */
-    protected function countTrainingSet(FeatureFactoryInterface $ff, TrainingSet $tset, array &$termcount_per_class, array &$termcount, array &$ndocs_per_class, array &$voc, &$ndocs)
+    protected function countTrainingSet(FeatureFactoryInterface $featureFactory, TrainingSet $trainingSet, array &$termcountPerClass, array &$termcount, array &$ndocsPerClass, array &$voc, int &$ndocs)
     {
-        foreach ($tset as $tdoc) {
+        foreach ($trainingSet as $tdoc) {
             $ndocs++;
             $c = $tdoc->getClass();
-            $ndocs_per_class[$c]++;
-            $features = $ff->getFeatureArray($c,$tdoc);
-            if (is_int(key($features)))
+            $ndocsPerClass[$c]++;
+            $features = $featureFactory->getFeatureArray($c, $tdoc);
+            if (is_int(key($features))) {
                 $features = array_count_values($features);
-            foreach ($features as $f=>$fcnt) {
-                if (!isset($voc[$f]))
-                    $voc[$f] = 0;
+            }
 
-                $termcount_per_class[$c]+=$fcnt;
-                if (isset($termcount[$c][$f]))
-                    $termcount[$c][$f]+=$fcnt;
-                else
+            foreach ($features as $f => $fcnt) {
+                if (!isset($voc[$f])) {
+                    $voc[$f] = 0;
+                }
+
+                $termcountPerClass[$c] += $fcnt;
+                if (isset($termcount[$c][$f])) {
+                    $termcount[$c][$f] += $fcnt;
+                } else {
                     $termcount[$c][$f] = $fcnt;
+                }
             }
         }
     }
@@ -172,24 +157,25 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      * training set.
      *
      * @param  array   $class_set           Just the array that contains the classes
-     * @param  array   $termcount_per_class The count of occurences of each feature in each class
+     * @param  array   $termcountPerClass The count of occurences of each feature in each class
      * @param  array   $termcount           The total count of occurences of each term
-     * @param  array   $ndocs_per_class     The total number of documents per class
+     * @param  array   $ndocsPerClass     The total number of documents per class
      * @param  integer $ndocs               The total number of documents
      * @param  integer $voccount            The total number of features found
      * @return void
      */
-    protected function computeProbabilitiesFromCounts(array $class_set, array &$termcount_per_class, array &$termcount, array &$ndocs_per_class, $ndocs, $voccount, $a_smoothing=1)
+    protected function computeProbabilitiesFromCounts(array $class_set, array &$termcountPerClass, array &$termcount, array &$ndocsPerClass, int $ndocs, int $voccount, $additiveSmoothing = 1)
     {
-        $denom_smoothing = $a_smoothing*$voccount;
+        $denom_smoothing = $additiveSmoothing * $voccount;
         foreach ($class_set as $class) {
-            $this->priors[$class] = $ndocs_per_class[$class] / $ndocs;
-            foreach ($termcount[$class] as $term=>$count) {
-                $this->condprob[$term][$class] = ($count + $a_smoothing) / ($termcount_per_class[$class] + $denom_smoothing);
+            $this->priors[$class] = $ndocsPerClass[$class] / $ndocs;
+            foreach ($termcount[$class] as $term => $count) {
+                $this->condprob[$term][$class] = ($count + $additiveSmoothing) / ($termcountPerClass[$class] + $denom_smoothing);
             }
         }
+
         foreach ($class_set as $class) {
-            $this->unknown[$class] = $a_smoothing / ($termcount_per_class[$class] + $denom_smoothing);
+            $this->unknown[$class] = $additiveSmoothing / ($termcountPerClass[$class] + $denom_smoothing);
         }
     }
 
@@ -198,6 +184,6 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      */
     public function __sleep()
     {
-        return array('priors','condprob','unknown');
+        return ['priors', 'condprob', 'unknown'];
     }
 }

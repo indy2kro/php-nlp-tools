@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NlpTools\Tokenizers;
 
 interface TokenizerInterface
@@ -10,5 +12,5 @@ interface TokenizerInterface
      * @param  string $str The text for tokenization
      * @return array  The list of tokens from the string
      */
-    public function tokenize($str);
+    public function tokenize(string $str): array;
 }

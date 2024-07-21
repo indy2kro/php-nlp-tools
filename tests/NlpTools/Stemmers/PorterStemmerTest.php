@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NlpTools\Stemmers;
 
 /**
@@ -16,15 +18,15 @@ class PorterStemmerTest extends StemmerTestBase
      *
      * @group Slow
      */
-    public function testStemmer()
+    public function testStemmer(): void
     {
-        $words = new \SplFileObject(TEST_DATA_DIR.'/Stemmers/PorterStemmerTest/words.txt');
-        $stems = new \SplFileObject(TEST_DATA_DIR.'/Stemmers/PorterStemmerTest/stems.txt');
+        $words = new \SplFileObject(TEST_DATA_DIR . '/Stemmers/PorterStemmerTest/words.txt');
+        $stems = new \SplFileObject(TEST_DATA_DIR . '/Stemmers/PorterStemmerTest/stems.txt');
         $words->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
         $stems->setFlags(\SplFileObject::DROP_NEW_LINE | \SplFileObject::SKIP_EMPTY);
         $stems->rewind();
 
-        $stemmer = new PorterStemmer();
-        $this->checkStemmer($stemmer, $words, $stems);
+        $porterStemmer = new PorterStemmer();
+        $this->checkStemmer($porterStemmer, $words, $stems);
     }
 }

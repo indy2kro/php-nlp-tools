@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NlpTools\Models;
 
 /**
@@ -14,21 +16,23 @@ namespace NlpTools\Models;
  */
 class LinearModel
 {
-    protected $l;
-    public function __construct(array $l)
+    public function __construct(protected array $l)
     {
-        $this->l = $l;
     }
+
     /**
      * Get the weight for a given feature
      *
      * @param  string $feature The feature for which the weight will be returned
      * @return float  The weight
      */
-    public function getWeight($feature)
+    public function getWeight(string $feature): float
     {
-        if (!isset($this->l[$feature])) return 0;
-        else return $this->l[$feature];
+        if (!isset($this->l[$feature])) {
+            return 0;
+        }
+
+        return $this->l[$feature];
     }
 
     /**
@@ -36,7 +40,7 @@ class LinearModel
      *
      * @return array The weights as an associative array
      */
-    public function getWeights()
+    public function getWeights(): array
     {
         return $this->l;
     }

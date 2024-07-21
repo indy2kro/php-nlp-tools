@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NlpTools\Similarity;
 
 /**
@@ -8,5 +10,5 @@ namespace NlpTools\Similarity;
  */
 interface DistanceInterface
 {
-    public function dist(&$A, &$B);
+    public function dist(array &$a, array &$b): float;
 }
