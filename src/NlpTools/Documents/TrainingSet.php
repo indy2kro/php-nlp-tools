@@ -10,6 +10,9 @@ use NlpTools\Utils\TransformationInterface;
 /**
  * A collection of TrainingDocument objects. It implements many built
  * in php interfaces for ease of use.
+ *
+ * @implements \Iterator<int|string, DocumentInterface>
+ * @implements \ArrayAccess<int|string, DocumentInterface>
  */
 class TrainingSet implements \Iterator, \ArrayAccess, \Countable
 {
@@ -17,10 +20,19 @@ class TrainingSet implements \Iterator, \ArrayAccess, \Countable
 
     public const OFFSET_AS_KEY = 2;
 
-    // An array that contains all the classes present in the TrainingSet
+    /**
+     * An array that contains all the classes present in the TrainingSet
+     *
+     * @var array<string, int>
+     */
     protected array $classSet = [];
 
-    protected array $documents = []; // The documents container
+    /**
+     * The documents container
+     *
+     * @var array<int, DocumentInterface>
+     */
+    protected array $documents = [];
 
     // When iterated upon what should the key be?
     protected int $keytype = self::CLASS_AS_KEY;
@@ -37,7 +49,11 @@ class TrainingSet implements \Iterator, \ArrayAccess, \Countable
         $this->classSet[$class] = 1;
     }
 
-    // return the classset
+    /**
+     * Return the classset
+     *
+     * @return array<int, string>
+     */
     public function getClassSet(): array
     {
         return array_keys($this->classSet);

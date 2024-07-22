@@ -24,18 +24,36 @@ class Lda
 {
     protected MersenneTwister $mt;
 
+    /**
+     * @var array<int, mixed>
+     */
     protected array $count_docs_topics;
 
+    /**
+     * @var array<int, mixed>
+     */
     protected array $count_topics_words;
 
+    /**
+     * @var array<int, mixed>
+     */
     protected array $words_in_doc;
 
+    /**
+     * @var array<int, mixed>
+     */
     protected array $words_in_topic;
 
+    /**
+     * @var array<int, mixed>
+     */
     protected array $word_doc_assigned_topic;
 
     protected int $voccnt;
 
+    /**
+     * @var array<int, int>
+     */
     protected array $voc;
 
     /**
@@ -52,6 +70,8 @@ class Lda
     /**
      * Generate an array suitable for use with Lda::initialize and
      * Lda::gibbsSample from a training set.
+     *
+     * @return array<int, mixed>
      */
     public function generateDocs(TrainingSet $trainingSet): array
     {
@@ -67,7 +87,7 @@ class Lda
      * Count initially the co-occurences of documents,topics and
      * topics,words and cache them to run Gibbs sampling faster
      *
-     * @param array $docs The docs that we will use to generate the sample
+     * @param array<int, mixed> $docs The docs that we will use to generate the sample
      */
     public function initialize(array &$docs): void
     {
@@ -145,7 +165,7 @@ class Lda
       * The docs must have been passed to initialize previous to calling
       * this function.
       *
-      * @param array $docs The docs that we will use to generate the sample
+      * @param array<int, mixed> $docs The docs that we will use to generate the sample
       */
     public function gibbsSample(array &$docs): void
     {
@@ -186,7 +206,7 @@ class Lda
       * Griffiths and Steyvers)
       *
       * @param int $limitWords Limit the results to the top n words
-      * @return array A two dimensional array that contains the probabilities for each topic
+      * @return array<int, mixed> A two dimensional array that contains the probabilities for each topic
       */
     public function getWordsPerTopicsProbabilities(int $limitWords = -1): array
     {
@@ -211,8 +231,10 @@ class Lda
     }
 
      /**
-      * Shortcut to getWordsPerTopicsProbabilities
-      */
+     * Shortcut to getWordsPerTopicsProbabilities
+     *
+     * @return array<int, mixed>
+     */
     public function getPhi(int $limitWords = -1): array
     {
         return $this->getWordsPerTopicsProbabilities($limitWords);
@@ -223,7 +245,7 @@ class Lda
       * to Griffiths and Steyvers)
       *
       * @param int $limitDocs Limit the results to the top n docs
-      * @return array A two dimensional array that contains the probabilities for each document
+      * @return array<int, mixed> A two dimensional array that contains the probabilities for each document
       */
     public function getDocumentsPerTopicsProbabilities(int $limitDocs = -1): array
     {
@@ -257,6 +279,8 @@ class Lda
 
      /**
       * Shortcut to getDocumentsPerTopicsProbabilities
+      *
+      * @return array<int, mixed>
       */
     public function getTheta(int $limitDocs = -1): array
     {
@@ -304,9 +328,9 @@ class Lda
       * This is the implementation of the equation number 5 in the paper
       * by Griffiths and Steyvers.
       *
-      * @return array The vector of probabilites for all topics as computed by the equation 5
+      * @return array<int, mixed> The vector of probabilites for all topics as computed by the equation 5
       */
-    protected function conditionalDistribution(int $i, $w): array
+    protected function conditionalDistribution(int $i, mixed $w): array
     {
         $p = array_fill_keys(range(0, $this->ntopics - 1), 0);
         for ($topic = 0; $topic < $this->ntopics; $topic++) {
@@ -333,7 +357,8 @@ class Lda
       * Draw once from a multinomial distribution and return the index
       * of that is drawn.
       *
-      * @return int The index that was drawn.
+      * @param array<int, float> $d
+      * @return int|null The index that was drawn.
       */
     protected function drawIndex(array $d): int|null
     {
@@ -453,6 +478,10 @@ class Lda
         return ($x - 0.5) * log($x) - $x + $halfLogTwoPi + $series;
     }
 
+    /**
+     * @param array<int, mixed> $a
+     * @return array<int, mixed>
+     */
     private function logGammaArray(array $a): array
     {
         foreach ($a as &$x) {
@@ -462,6 +491,9 @@ class Lda
         return $a;
     }
 
+    /**
+     * @param float|array<int, mixed> $a
+     */
     private function logMultiBeta(float|array $a, float|int $y = 0, ?float $k = null): float
     {
         if ($k === null) {

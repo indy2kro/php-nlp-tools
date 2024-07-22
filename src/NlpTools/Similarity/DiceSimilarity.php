@@ -10,8 +10,11 @@ namespace NlpTools\Similarity;
 class DiceSimilarity implements SimilarityInterface, DistanceInterface
 {
     /**
-    * The similarity returned by this algorithm is a number between 0,1
-    */
+     * The similarity returned by this algorithm is a number between 0,1
+     *
+     * @param  array<int|string, mixed> $a Either feature vector or simply vector
+     * @param  array<int|string, mixed> $b Either feature vector or simply vector
+     */
     public function similarity(array &$a, array &$b): float
     {
         $aa = array_fill_keys($a, 1);
@@ -24,6 +27,10 @@ class DiceSimilarity implements SimilarityInterface, DistanceInterface
         return (2 * $intersect) / ($aCount + $bCount);
     }
 
+    /**
+     * @param  array<int|string, mixed> $a Either feature vector or simply vector
+     * @param  array<int|string, mixed> $b Either feature vector or simply vector
+     */
     public function dist(array &$a, array &$b): float
     {
         return 1 - $this->similarity($a, $b);

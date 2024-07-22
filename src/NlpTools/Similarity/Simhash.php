@@ -18,10 +18,16 @@ namespace NlpTools\Similarity;
  */
 class Simhash implements SimilarityInterface, DistanceInterface
 {
-    // This is the default hash function used to hash
-    // the members of the sets (it is just a wrapper over md5)
+    /**
+     * This is the default hash function used to hash the members of the sets (it is just a wrapper over md5)
+     *
+     * @var array<int, string>
+     */
     protected static array $search = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
 
+    /**
+     * @var array<int, string>
+     */
     protected static array $replace = ['0000', '0001', '0010', '0011', '0100', '0101', '0110', '0111', '1000', '1001', '1010', '1011', '1100', '1101', '1110', '1111'];
 
     protected static function md5(string $w): string
@@ -29,6 +35,9 @@ class Simhash implements SimilarityInterface, DistanceInterface
         return str_replace(self::$search, self::$replace, md5($w));
     }
 
+    /**
+     * @param callable $h
+     */
     public function __construct(protected int $length, protected $h = [self::class, 'md5'])
     {
     }
@@ -47,8 +56,9 @@ class Simhash implements SimilarityInterface, DistanceInterface
      *  1. Each feature has a weight of 1, but feature duplication is
      *     allowed.
      *
+     * @param array<int|string, mixed> $set
      * @return string The bits of the hash as a string
-     * */
+     */
     public function simhash(array &$set): string
     {
         $boxes = array_fill(0, $this->length, 0);
@@ -79,6 +89,9 @@ class Simhash implements SimilarityInterface, DistanceInterface
 
     /**
      * Computes the hamming distance of the simhashes of two sets.
+     *
+     * @param  array<int|string, mixed> $a Either a vector or a collection of tokens to be transformed to a vector
+     * @param  array<int|string, mixed> $b Either a vector or a collection of tokens to be transformed to a vector
      */
     public function dist(array &$a, array &$b): float
     {
@@ -98,7 +111,8 @@ class Simhash implements SimilarityInterface, DistanceInterface
      * Computes a similarity measure from two sets. The similarity is
      * computed as 1 - (sets' distance) / (maximum possible distance).
      *
-     * @return float [0,1]
+     * @param  array<int|string, mixed> $a Either a vector or a collection of tokens to be transformed to a vector
+     * @param  array<int|string, mixed> $b Either a vector or a collection of tokens to be transformed to a vector
      */
     public function similarity(array &$a, array &$b): float
     {

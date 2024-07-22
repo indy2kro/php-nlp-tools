@@ -17,9 +17,9 @@ class RegexStemmer extends Stemmer
     {
     }
 
-    public function stem($word): string
+    public function stem(string $word): string
     {
-        if (mb_strlen((string) $word, 'utf-8') >= $this->min) {
+        if (mb_strlen($word, 'utf-8') >= $this->min) {
             return preg_replace($this->regex, '', $word);
         }
 

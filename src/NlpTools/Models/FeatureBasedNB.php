@@ -13,13 +13,25 @@ use NlpTools\Documents\TrainingSet;
  */
 class FeatureBasedNB implements MultinomialNBModelInterface
 {
-    // computed prior probabilities
+    /**
+     * Computed prior probabilities
+     *
+     * @var array<string, float>
+     */
     protected array $priors = [];
 
-    // computed conditional probabilites
+    /**
+     * Computed conditional probabilites
+     *
+     * @var array<string, mixed>
+     */
     protected array $condprob = [];
 
-    // probability for each unknown word in a class a/(len(terms[class])+a*len(V))
+    /**
+     * Probability for each unknown word in a class a/(len(terms[class])+a*len(V))
+     *
+     * @var array<string, mixed>
+     */
     protected array $unknown = [];
 
     /**
@@ -54,11 +66,11 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      * It can be used for incremental training. It is not meant to be used
      * with the same training set twice.
      *
-     * @param array                   $trainContext The previous training context
+     * @param array<string, mixed> $trainContext The previous training context
      * @param FeatureFactoryInterface $featureFactory A feature factory to compute features from a training document
      * @param TrainingSet $trainingSet The training set
-     * @param  integer $additiveSmoothing The parameter for additive smoothing. Defaults to add-one smoothing.
-     * @return array   Return a training context to be used for further incremental training,
+     * @param integer $additiveSmoothing The parameter for additive smoothing. Defaults to add-one smoothing.
+     * @return array<string, mixed>   Return a training context to be used for further incremental training,
      *               although this is not necessary since the changes also happen in place
      */
     public function trainWithContext(array &$trainContext, FeatureFactoryInterface $featureFactory, TrainingSet $trainingSet, int $additiveSmoothing = 1): array
@@ -101,7 +113,7 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      * @param FeatureFactoryInterface $featureFactory A feature factory to compute features from a training document
      * @param TrainingSet $trainingSet The training set
      * @param  integer $additiveSmoothing The parameter for additive smoothing. Defaults to add-one smoothing.
-     * @return array   Return a training context to be used for incremental training
+     * @return array<string, mixed>   Return a training context to be used for incremental training
      */
     public function train(FeatureFactoryInterface $featureFactory, TrainingSet $trainingSet, int $additiveSmoothing = 1): array
     {
@@ -119,10 +131,10 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      *
      * @param FeatureFactoryInterface $featureFactory A feature factory to create the features for each document in the set
      * @param TrainingSet $trainingSet The training set (collection of labeled documents)
-     * @param  array                   $termcountPerClass The count of occurences of each feature in each class
-     * @param  array                   $termcount           The total count of occurences of each term
-     * @param  array                   $ndocsPerClass     The total number of documents per class
-     * @param  array                   $voc                 A set of the found features
+     * @param  array<string, int>      $termcountPerClass The count of occurences of each feature in each class
+     * @param  array<string, int>      $termcount           The total count of occurences of each term
+     * @param  array<string, int>      $ndocsPerClass     The total number of documents per class
+     * @param  array<string, int>      $voc                 A set of the found features
      * @param  integer                 $ndocs               The number of documents
      * @return void
      */
@@ -156,15 +168,15 @@ class FeatureBasedNB implements MultinomialNBModelInterface
      * Compute the probabilities given the counts of the features in the
      * training set.
      *
-     * @param  array   $class_set           Just the array that contains the classes
-     * @param  array   $termcountPerClass The count of occurences of each feature in each class
-     * @param  array   $termcount           The total count of occurences of each term
-     * @param  array   $ndocsPerClass     The total number of documents per class
+     * @param  array<int, string>   $class_set           Just the array that contains the classes
+     * @param  array<string, int>   $termcountPerClass The count of occurences of each feature in each class
+     * @param  array<string, mixed>   $termcount           The total count of occurences of each term
+     * @param  array<string, int>   $ndocsPerClass     The total number of documents per class
      * @param  integer $ndocs               The total number of documents
      * @param  integer $voccount            The total number of features found
      * @return void
      */
-    protected function computeProbabilitiesFromCounts(array $class_set, array &$termcountPerClass, array &$termcount, array &$ndocsPerClass, int $ndocs, int $voccount, $additiveSmoothing = 1)
+    protected function computeProbabilitiesFromCounts(array $class_set, array &$termcountPerClass, array &$termcount, array &$ndocsPerClass, int $ndocs, int $voccount, int $additiveSmoothing = 1)
     {
         $denom_smoothing = $additiveSmoothing * $voccount;
         foreach ($class_set as $class) {

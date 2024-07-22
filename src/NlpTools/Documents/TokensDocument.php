@@ -11,12 +11,17 @@ use NlpTools\Utils\TransformationInterface;
  */
 class TokensDocument implements DocumentInterface
 {
+    /**
+     * @param array<int|string, mixed> $tokens
+     */
     public function __construct(protected array $tokens)
     {
     }
 
     /**
      * Simply return the tokens received in the constructor
+     *
+     * @return array<int, string>
      */
     public function getDocumentData(): array
     {

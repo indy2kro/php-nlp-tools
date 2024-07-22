@@ -10,13 +10,17 @@ namespace NlpTools\Optimizers;
  */
 abstract class GradientDescentOptimizer implements FeatureBasedLinearOptimizerInterface
 {
-    // array that holds the current fprime
+    /**
+     * Array that holds the current fprime
+     *
+     * @var array<string, float>
+     */
     protected array $fprimeVector;
 
     // report the improvement
     protected int $verbose = 2;
 
-    public function __construct(protected $precision = 0.001, protected float $step = 0.1, protected int $maxiter = -1)
+    public function __construct(protected float $precision = 0.001, protected float $step = 0.1, protected int $maxiter = -1)
     {
     }
 
@@ -24,26 +28,26 @@ abstract class GradientDescentOptimizer implements FeatureBasedLinearOptimizerIn
      * Should initialize the weights and compute any constant
      * expressions needed for the fprime calculation.
      *
-     * @param $feature_array All the data known about the training set
-     * @param $l The current set of weights to be initialized
+     * @param array<string, mixed> $featureArray All the data known about the training set
+     * @param array<string, mixed> $l The current set of weights to be initialized
      */
-    abstract protected function initParameters(array &$feature_array, array &$l): void;
+    abstract protected function initParameters(array &$featureArray, array &$l): void;
 
     /**
      * Should calculate any parameter needed by Fprime that cannot be
      * calculated by initParameters because it is not constant.
      *
-     * @param $feature_array All the data known about the training set
-     * @param $l The current set of weights to be initialized
+     * @param array<string, mixed> $featureArray All the data known about the training set
+     * @param array<string, mixed> $l The current set of weights to be initialized
      */
-    abstract protected function prepareFprime(array &$feature_array, array &$l): void;
+    abstract protected function prepareFprime(array &$featureArray, array &$l): void;
 
     /**
      * Actually compute the fprime_vector. Set for each $l[$i] the
      * value of the partial derivative of f for delta $l[$i]
      *
-     * @param $featureArray All the data known about the training set
-     * @param $l The current set of weights to be initialized
+     * @param array<string, mixed> $featureArray All the data known about the training set
+     * @param array<string, mixed> $l The current set of weights to be initialized
      */
     abstract protected function fPrime(array &$featureArray, array &$l): void;
 
@@ -52,8 +56,8 @@ abstract class GradientDescentOptimizer implements FeatureBasedLinearOptimizerIn
      * l[i] = l[i] - learning_rate*( theta f/delta l[i] ) for each i
      * Could possibly benefit from a vetor add/scale function.
      *
-     * @param $featureArray All the data known about the training set
-     * @return array The parameters $l[$i] that minimize F
+     * @param array<string, mixed> $featureArray All the data known about the training set
+     * @return array<string, mixed> The parameters $l[$i] that minimize F
      */
     public function optimize(array &$featureArray): array
     {

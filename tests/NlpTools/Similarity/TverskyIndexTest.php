@@ -8,6 +8,10 @@ use PHPUnit\Framework\TestCase;
 
 class TverskyIndexTest extends TestCase
 {
+    /**
+     * @param array<int, mixed> $A
+     * @param array<int, mixed> $B
+     */
     private function sim(array $A, array $B, float $a, int $b): float
     {
         $tverskyIndex = new TverskyIndex($a, $b);

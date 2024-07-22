@@ -241,6 +241,7 @@ class HierarchicalTest extends ClusteringTestBase
         $points = [['x' => 1, 'y' => 1], ['x' => 1, 'y' => 2], ['x' => 2, 'y' => 2], ['x' => 3, 'y' => 3], ['x' => 3, 'y' => 4]];
 
         $trainingSet = new TrainingSet();
+
         foreach ($points as $point) {
             $trainingSet->addDocument('', new TokensDocument($point));
         }

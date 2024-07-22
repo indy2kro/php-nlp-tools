@@ -40,6 +40,9 @@ abstract class Normalizer implements TransformationInterface
 
     /**
      * Apply the normalize function to all the items in the array
+     *
+     * @param array<int, string> $items
+     * @return array<int, string>
      */
     public function normalizeAll(array $items): array
     {

@@ -21,6 +21,8 @@ class FeatureBasedLinearClassifier implements ClassifierInterface
     /**
      * Compute the vote for every class. Return the class that
      * receive the maximum vote.
+     *
+     * @param array<int, string> $classes
      */
     public function classify(array $classes, DocumentInterface $document): string
     {

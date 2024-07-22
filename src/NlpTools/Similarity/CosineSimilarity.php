@@ -37,8 +37,8 @@ class CosineSimilarity implements SimilarityInterface, DistanceInterface
      * See the class comment about why the number is in [0,1] and not
      * in [-1,1] as it normally should.
      *
-     * @param  array $a Either feature vector or simply vector
-     * @param  array $b Either feature vector or simply vector
+     * @param  array<int|string, mixed> $a Either feature vector or simply vector
+     * @param  array<int|string, mixed> $b Either feature vector or simply vector
      * @return float The cosinus of the angle between the two vectors
      */
     public function similarity(array &$a, array &$b): float
@@ -87,6 +87,9 @@ class CosineSimilarity implements SimilarityInterface, DistanceInterface
 
     /**
      * Cosine distance is simply 1-cosine similarity
+     *
+     * @param  array<int|string, mixed> $a Either feature vector or simply vector
+     * @param  array<int|string, mixed> $b Either feature vector or simply vector
      */
     public function dist(array &$a, array &$b): float
     {

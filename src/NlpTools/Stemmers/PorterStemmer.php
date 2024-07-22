@@ -23,7 +23,11 @@ namespace NlpTools\Stemmers;
  */
 class PorterStemmer extends Stemmer
 {
-    // isset is faster than switch in php even for one character switches
+    /**
+     * Isset is faster than switch in php even for one character switches
+     *
+     * @var array<string, string>
+     */
     protected static array $vowels = ['a' => 'a', 'e' => 'e', 'i' => 'i', 'o' => 'o', 'u' => 'u'];
 
     /**
@@ -144,7 +148,7 @@ class PorterStemmer extends Stemmer
     }
 
     /* doublec(j) is TRUE <=> j,(j-1) contain a double consonant. */
-    protected function doublec($j): bool
+    protected function doublec(int $j): bool
     {
         if ($j < 1) {
             return false;
@@ -166,7 +170,7 @@ class PorterStemmer extends Stemmer
      *   snow, box, tray.
      *
      * */
-    protected function cvc($i): bool
+    protected function cvc(int $i): bool
     {
         if ($i < 2 || !$this->cons($i) || $this->cons($i - 1) || !$this->cons($i - 2)) {
             return false;
@@ -207,13 +211,13 @@ class PorterStemmer extends Stemmer
      *
      * Again $length is passed for speedup
      * */
-    protected function setto(string $s, int $length)
+    protected function setto(string $s, int $length): void
     {
         $this->b = substr_replace($this->b, $s, $this->j + 1);
         $this->k = $this->j + $length;
     }
 
-    protected function r(string $s, int $length)
+    protected function r(string $s, int $length): void
     {
         if ($this->m() > 0) {
             $this->setto($s, $length);

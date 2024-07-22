@@ -22,6 +22,9 @@ class TrainingDocument implements DocumentInterface
     {
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getDocumentData(): array
     {
         return $this->document->getDocumentData();

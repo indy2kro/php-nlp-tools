@@ -13,11 +13,17 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class TransformationsTest extends TestCase
 {
+    /**
+     * @return array<int, mixed>
+     */
     public static function provideTokens(): array
     {
         return [[["1", "2", "3", "4", "5", "6", "7"]]];
     }
 
+    /**
+     * @param array<int, string> $tokens
+     */
     #[DataProvider('provideTokens')]
     public function testTokensDocument(array $tokens): void
     {
@@ -41,6 +47,9 @@ class TransformationsTest extends TestCase
         );
     }
 
+    /**
+     * @param array<int, string> $tokens
+     */
     #[DataProvider('provideTokens')]
     public function testWordDocument(array $tokens): void
     {

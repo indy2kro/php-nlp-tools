@@ -41,6 +41,9 @@ class Maxent extends LinearModel
      * be slow to calculate the features over and over again, but also
      * because we want to be able to optimize externally to
      * gain speed (PHP is slow!).
+     *
+     * @param array<int, string> $classes
+     * @return array<int, mixed>
      */
     protected function calculateFeatureArray(array $classes, TrainingSet $trainingSet, FeatureFactoryInterface $featureFactory): array
     {
@@ -62,6 +65,8 @@ class Maxent extends LinearModel
      * Calculate the probability that document $d belongs to the class
      * $class given a set of possible classes, a feature factory and
      * the model's weights l[i]
+     *
+     * @param array<int, string> $classes
      */
     public function calculateProbability(array $classes, FeatureFactoryInterface $featureFactory, DocumentInterface $document, string $class): float
     {

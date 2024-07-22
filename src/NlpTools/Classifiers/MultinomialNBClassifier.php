@@ -21,6 +21,8 @@ class MultinomialNBClassifier implements ClassifierInterface
      * Compute the probability of $d belonging to each class
      * successively and return that class that has the maximum
      * probability.
+     *
+     * @param array<int, string> $classes
      */
     public function classify(array $classes, DocumentInterface $document): string
     {

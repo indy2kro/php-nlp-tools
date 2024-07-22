@@ -12,7 +12,7 @@ class RegexTokenizer implements TokenizerInterface
     /**
      * Initialize the Tokenizer
      *
-     * @param array $patterns The regular expressions
+     * @param array<int, mixed> $patterns The regular expressions
      */
     public function __construct(protected array $patterns)
     {
@@ -32,7 +32,7 @@ class RegexTokenizer implements TokenizerInterface
      * pattern used with preg_replace
      *
      * @param  string $str The string to be tokenized
-     * @return array  The tokens
+     * @return array<int, mixed>  The tokens
      */
     public function tokenize(string $str): array
     {
@@ -57,7 +57,7 @@ class RegexTokenizer implements TokenizerInterface
     /**
      * Execute the SPLIT mode
      *
-     * @param array &$str The tokens to be further tokenized
+     * @param array<int, mixed> &$str The tokens to be further tokenized
      */
     protected function split(array &$str, string $pattern): void
     {
@@ -75,7 +75,7 @@ class RegexTokenizer implements TokenizerInterface
     /**
      * Execute the KEEP_MATCHES mode
      *
-     * @param array &$str The tokens to be further tokenized
+     * @param array<int, mixed> &$str The tokens to be further tokenized
      */
     protected function match(array &$str, string $pattern, string $keep): void
     {
@@ -93,8 +93,10 @@ class RegexTokenizer implements TokenizerInterface
 
     /**
      * Execute the TRANSFORM mode.
+     *
+     * @param array<int, mixed> &$str The tokens to be further tokenized
      */
-    protected function replace(array &$str, string $pattern, string $replacement)
+    protected function replace(array &$str, string $pattern, string $replacement): void
     {
         foreach ($str as &$s) {
             $s = preg_replace($pattern, $replacement, $s);

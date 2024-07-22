@@ -21,11 +21,14 @@ use PHPUnit\Framework\Attributes\Group;
  */
 class LdaTest extends TestCase
 {
-    protected $path;
+    protected string $path;
 
-    protected $tset;
+    protected TrainingSet $tset;
 
-    protected $topics;
+    /**
+     * @var array<int, mixed>
+     */
+    protected array $topics;
 
     protected function setUp(): void
     {
@@ -119,7 +122,7 @@ class LdaTest extends TestCase
     //
     // TODO: Unit testing for lda is needed
 
-    protected function createTopics()
+    protected function createTopics(): void
     {
         $topics = [[[1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0]], [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [1, 1, 1, 1, 1]], [[0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1], [0, 0, 0, 0, 1]], [[0, 0, 0, 1, 0], [0, 0, 0, 1, 0], [0, 0, 0, 1, 0], [0, 0, 0, 1, 0], [0, 0, 0, 1, 0]], [[0, 0, 1, 0, 0], [0, 0, 1, 0, 0], [0, 0, 1, 0, 0], [0, 0, 1, 0, 0], [0, 0, 1, 0, 0]], [[0, 1, 0, 0, 0], [0, 1, 0, 0, 0], [0, 1, 0, 0, 0], [0, 1, 0, 0, 0], [0, 1, 0, 0, 0]], [[1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0], [1, 0, 0, 0, 0]]];
 
@@ -156,7 +159,7 @@ class LdaTest extends TestCase
         }
     }
 
-    protected function createData()
+    protected function createData(): void
     {
         $dirichlet = new Dirichlet(1, count($this->topics));
 
@@ -166,7 +169,7 @@ class LdaTest extends TestCase
         }
     }
 
-    protected function loadData()
+    protected function loadData(): void
     {
         $this->tset = new TrainingSet();
         foreach (new \DirectoryIterator($this->path . '/data') as $f) {
@@ -185,8 +188,10 @@ class LdaTest extends TestCase
 
     /**
      * Save a two dimensional array as a grey-scale image
+     *
+     * @param array<int, mixed> $img
      */
-    protected function createImage(array $img, $filename)
+    protected function createImage(array $img, string $filename): void
     {
         $im = imagecreate(count($img), count(current($img)));
         imagecolorallocate($im, 0, 0, 0);
@@ -203,8 +208,10 @@ class LdaTest extends TestCase
 
     /**
      * Draw once from a multinomial distribution
+     *
+     * @param array<int, mixed> $d
      */
-    protected function draw($d)
+    protected function draw(array $d): ?int
     {
         $mersenneTwister = MersenneTwister::get(); // simply mt_rand but in the interval [0,1)
         $x = $mersenneTwister->generate();
@@ -222,13 +229,17 @@ class LdaTest extends TestCase
     /**
      * Create a document sticking to the model's assumptions
      * and hypotheses
+     *
+     * @param array<int, mixed> $topicDists
+     * @param array<int, mixed> $theta
+     * @return array<int, mixed>
      */
-    public function createDocument(array $topic_dists, $theta, $length): array
+    public function createDocument(array $topicDists, array $theta, int $length): array
     {
         $doc = array_fill_keys(range(0, 24), 0);
         while ($length-- > 0) {
             $topic = $this->draw($theta);
-            $word = $this->draw($topic_dists[$topic]);
+            $word = $this->draw($topicDists[$topic]);
             $doc[$word] += 1;
         }
 
@@ -240,9 +251,10 @@ class LdaTest extends TestCase
 
     /**
      * Load a document from an image saved to disk
-     * @return mixed[]
+     *
+     * @return array<int, mixed>
      */
-    public function fromImg($file): array
+    public function fromImg(string $file): array
     {
         $im = imagecreatefrompng($file);
         $d = [];

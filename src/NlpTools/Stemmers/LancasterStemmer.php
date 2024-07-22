@@ -36,6 +36,8 @@ class LancasterStemmer extends Stemmer
 
     /**
      * The indexed rule set provided
+     *
+     * @var array<string, mixed>
      */
     protected array $indexedRules = [];
 
@@ -46,7 +48,7 @@ class LancasterStemmer extends Stemmer
 
     /**
      * Constructor loads the ruleset into memory
-     * @param array $ruleSet the set of rules that will be used by the lancaster algorithm. if empty
+     * @param array<string, mixed> $ruleSet the set of rules that will be used by the lancaster algorithm. if empty
      * this will use the default ruleset embedded in the LancasterStemmer
      */
     public function __construct(array $ruleSet = [])
@@ -63,8 +65,10 @@ class LancasterStemmer extends Stemmer
 
     /**
      * Creates an chained hashtable using the lookup char as the key
+     *
+     * @param array<string, mixed> $rules
      */
-    protected function indexRules(array $rules)
+    protected function indexRules(array $rules): void
     {
         $this->indexedRules = [];
         foreach ($rules as $rule) {
@@ -139,7 +143,7 @@ class LancasterStemmer extends Stemmer
     /**
      * Apply the lancaster rule and return the altered string.
      * @param string $word word the rule is being applied on
-     * @param array  $rule An associative array containing all the data elements for applying to the word
+     * @param array<string, mixed>  $rule An associative array containing all the data elements for applying to the word
      */
     protected function applyRule(string $word, array $rule): string
     {
@@ -165,6 +169,8 @@ class LancasterStemmer extends Stemmer
 
     /**
      * Contains an array with the default lancaster rules
+     *
+     * @return array<int, mixed>
      */
     public static function getDefaultRuleSet(): array
     {

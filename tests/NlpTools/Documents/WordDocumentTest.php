@@ -11,7 +11,10 @@ use PHPUnit\Framework\TestCase;
  */
 class WordDocumentTest extends TestCase
 {
-    protected $tokens;
+    /**
+     * @var array<int, string>
+     */
+    protected array $tokens;
 
     protected function setUp(): void
     {

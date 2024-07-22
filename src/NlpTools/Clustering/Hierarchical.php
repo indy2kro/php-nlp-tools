@@ -24,7 +24,7 @@ class Hierarchical extends Clusterer
      * While hierarchical clustering only returns one element, it still wraps it
      * in an array to be consistent with the rest of the clustering methods.
      *
-     * @return array An array containing one element which is the resulting dendrogram
+     * @return array<int, mixed> An array containing one element which is the resulting dendrogram
      */
     public function cluster(TrainingSet $trainingSet, FeatureFactoryInterface $featureFactory): array
     {
@@ -60,9 +60,9 @@ class Hierarchical extends Clusterer
      * number of clusters (the closest power of 2 larger than
      * $NC)
      *
-     * @param  array   $tree The dendrogram to be flattened
+     * @param  array<int, mixed>   $tree The dendrogram to be flattened
      * @param  integer $numberOfClusters   The number of clusters to cut to
-     * @return array   The flat clusters
+     * @return array<int, mixed>   The flat clusters
      */
     public static function dendrogramToClusters(array $tree, int $numberOfClusters): array
     {

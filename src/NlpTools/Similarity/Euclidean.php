@@ -12,8 +12,9 @@ class Euclidean implements DistanceInterface
 {
     /**
      * see class description
-     * @param  array $a Either a vector or a collection of tokens to be transformed to a vector
-     * @param  array $b Either a vector or a collection of tokens to be transformed to a vector
+     *
+     * @param  array<int|string, mixed> $a Either a vector or a collection of tokens to be transformed to a vector
+     * @param  array<int|string, mixed> $b Either a vector or a collection of tokens to be transformed to a vector
      * @return float The euclidean distance between $A and $B
      */
     public function dist(array &$a, array &$b): float

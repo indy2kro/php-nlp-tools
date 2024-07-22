@@ -14,10 +14,12 @@ class FreqDist
 {
     /**
      * An associative array that holds all the frequencies per token
+     *
+     * @var array<string, float>
      */
     protected array $keyValues = [];
 
-/**
+    /**
      * The total number of tokens originally passed into FreqDist
      */
     protected int $totalTokens;
@@ -25,6 +27,8 @@ class FreqDist
     /**
      * This sorts the token meta data collection right away so use
      * frequency distribution data can be extracted.
+     *
+     * @param array<int, string> $tokens
      */
     public function __construct(array $tokens)
     {
@@ -42,10 +46,12 @@ class FreqDist
 
     /**
      * Internal function for summarizing all the data into a key value store
+     *
+     * @param array<int, string> $tokens
      */
     protected function preCompute(array &$tokens): void
     {
-        //count all the tokens up and put them in a key value store
+        // count all the tokens up and put them in a key value store
         $this->keyValues = array_count_values($tokens);
         arsort($this->keyValues);
     }
@@ -68,6 +74,8 @@ class FreqDist
 
     /**
      * Return the sorted keys by frequency desc
+     *
+     * @return array<int, string>
      */
     public function getKeys(): array
     {
@@ -76,6 +84,8 @@ class FreqDist
 
     /**
      * Return the sorted values by frequency desc
+     *
+     * @return array<int, float>
      */
     public function getValues(): array
     {
@@ -84,6 +94,8 @@ class FreqDist
 
     /**
      * Return the full key value store
+     *
+     * @return array<string, float>
      */
     public function getKeyValues(): array
     {
@@ -118,12 +130,14 @@ class FreqDist
     /**
      * Returns an array of tokens that occurred once
      * @todo This is an inefficient approach
+     *
+     * @return array<int, string>
      */
     public function getHapaxes(): array
     {
         $samples = [];
         foreach ($this->getKeyValues() as $sample => $count) {
-            if ($count == 1) {
+            if ((int) $count === 1) {
                 $samples[] = $sample;
             }
         }

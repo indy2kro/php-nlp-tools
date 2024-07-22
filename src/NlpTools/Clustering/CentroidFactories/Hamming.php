@@ -17,6 +17,9 @@ class Hamming implements CentroidFactoryInterface
      *
      * Assumptions: The docs array should contain strings that are properly padded
      *           binary (they should all be the same length).
+     *
+     * @param array<int, mixed> $docs
+     * @param array<int, int> $choose
      */
     public function getCentroid(array &$docs, array $choose = []): string
     {

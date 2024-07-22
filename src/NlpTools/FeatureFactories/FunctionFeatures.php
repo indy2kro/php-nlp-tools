@@ -18,6 +18,9 @@ class FunctionFeatures implements FeatureFactoryInterface
 {
     protected bool $frequency = false;
 
+    /**
+     * @param array<int, mixed> $functions
+     */
     public function __construct(protected array $functions = [])
     {
     }
@@ -53,6 +56,8 @@ class FunctionFeatures implements FeatureFactoryInterface
      * evaluates to false. If the return value is a string add it to
      * the feature set. If the return value is an array iterate over it
      * and add each value to the feature set.
+     *
+     * @return array<int, mixed>
      */
     public function getFeatureArray(string $class, DocumentInterface $document): array
     {

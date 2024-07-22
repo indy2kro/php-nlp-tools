@@ -11,6 +11,10 @@ namespace NlpTools\Clustering\CentroidFactories;
  */
 class MeanAngle extends Euclidean
 {
+    /**
+     * @param array<int, mixed> $v
+     * @return array<int, mixed>
+     */
     protected function normalize(array $v): array
     {
         $norm = array_reduce(
@@ -25,6 +29,11 @@ class MeanAngle extends Euclidean
         );
     }
 
+    /**
+     * @param array<int, mixed> $docs
+     * @param array<int, int> $choose
+     * @return array<mixed, mixed>
+     */
     public function getCentroid(array &$docs, array $choose = []): array
     {
         if ($choose === []) {

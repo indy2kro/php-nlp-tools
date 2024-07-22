@@ -12,8 +12,10 @@ class ClusteringTestBase extends TestCase
     /**
      * Return a color distributed in the pallete according to $t
      * $t should be in (0,1)
+     *
+     * @return array<int, mixed>
      */
-    protected function getColor($t): array
+    protected function getColor(float $t): array
     {
         $u = fn($x): int => ($x > 0) ? 1 : 0;
         $pulse = fn($x, $a, $b): int => $u($x - $a) - $u($x - $b);
@@ -23,8 +25,11 @@ class ClusteringTestBase extends TestCase
 
     /**
      * Return a gd handle with a visualization of the clustering or null in case gd is not present.
+     *
+     * @param array<int, mixed> $clusters
+     * @param array<int, mixed>|null $centroids
      */
-    protected function drawClusters(TrainingSet $trainingSet, $clusters, $centroids = null, $lines = false, $emphasize = 0, $w = 300, $h = 200): mixed
+    protected function drawClusters(TrainingSet $trainingSet, array $clusters, ?array $centroids = null, bool $lines = false, int $emphasize = 0, int $w = 300, int $h = 200): mixed
     {
         if (!function_exists('imagecreate')) {
             return null;
@@ -33,9 +38,9 @@ class ClusteringTestBase extends TestCase
         $im = imagecreatetruecolor($w, $h);
         $white = imagecolorallocate($im, 255, 255, 255);
         $colors = [];
-        $NC = count($clusters);
-        for ($i = 1; $i <= $NC; $i++) {
-            [$r, $g, $b] = $this->getColor($i / $NC);
+        $numberOfClusters = count($clusters);
+        for ($i = 1; $i <= $numberOfClusters; $i++) {
+            [$r, $g, $b] = $this->getColor($i / $numberOfClusters);
             $colors[] = imagecolorallocate($im, $r, $g, $b);
         }
 
@@ -71,8 +76,10 @@ class ClusteringTestBase extends TestCase
     /**
      * Return a gd handle with a visualization of the given dendrogram or null
      * if gd is not present.
+     *
+     * @param array<int, mixed> $dendrogram
      */
-    protected function drawDendrogram(TrainingSet $trainingSet, $dendrogram, $w = 300, $h = 200): null|\GdImage|false
+    protected function drawDendrogram(TrainingSet $trainingSet, array $dendrogram, int $w = 300, int $h = 200): mixed
     {
         if (!function_exists('imagecreate')) {
             return null;
@@ -125,7 +132,7 @@ class ClusteringTestBase extends TestCase
             return [$l + ($r - $l) / 2, $ym];
         };
 
-        if (count($dendrogram) == 1) {
+        if (count($dendrogram) === 1) {
             $draw_subcluster($dendrogram[0], $left);
         } else {
             $draw_subcluster($dendrogram, $left);

@@ -55,8 +55,8 @@ class ExternalMaxentOptimizer implements MaxentOptimizerInterface
      * Open a pipe to the optimizer, send him the data encoded in json
      * and then read the stdout to get the results encoded in json
      *
-     * @param  array $feature_array The features that fired for any document for any class @see NlpTools\Models\Maxent
-     * @return array The optimized weights
+     * @param  array<string, mixed> $feature_array The features that fired for any document for any class @see NlpTools\Models\Maxent
+     * @return array<string, mixed> The optimized weights
      */
     public function optimize(array &$feature_array): array
     {

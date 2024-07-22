@@ -16,6 +16,9 @@ namespace NlpTools\Models;
  */
 class LinearModel
 {
+    /**
+     * @param array<string, float> $l
+     */
     public function __construct(protected array $l)
     {
     }
@@ -38,7 +41,7 @@ class LinearModel
     /**
      * Get all the weights as an array.
      *
-     * @return array The weights as an associative array
+     * @return array<string, float> The weights as an associative array
      */
     public function getWeights(): array
     {

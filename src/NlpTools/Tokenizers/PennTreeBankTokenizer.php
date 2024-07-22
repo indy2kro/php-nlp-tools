@@ -16,7 +16,7 @@ use NlpTools\Exceptions\InvalidExpression;
 class PennTreeBankTokenizer extends WhitespaceTokenizer
 {
     /**
-     * @var array An array that holds the patterns and replacements
+     * @var array<int, mixed> An array that holds the patterns and replacements
      */
     protected array $patternsAndReplacements = [];
 
@@ -27,6 +27,8 @@ class PennTreeBankTokenizer extends WhitespaceTokenizer
 
     /**
      * Calls internal functions to handle data processing
+     *
+     * @return array<int, mixed>
      */
     public function tokenize(string $str): array
     {

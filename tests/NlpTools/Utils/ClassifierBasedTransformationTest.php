@@ -11,6 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 class ClassifierBasedTransformationTest extends TestCase implements ClassifierInterface
 {
+    /**
+     * @param array<int, mixed> $classes
+     */
     public function classify(array $classes, DocumentInterface $document): string
     {
         return $classes[$document->getDocumentData() % count($classes)];

@@ -10,11 +10,14 @@ use PHPUnit\Framework\Attributes\DataProvider;
 
 class TransformationTest extends TestCase
 {
+    /**
+     * @return array<string, mixed>
+     */
     public static function provideStemmers(): array
     {
         return [
-            [new LancasterStemmer()],
-            [new PorterStemmer()]
+            'LancasterStemmer' => [new LancasterStemmer()],
+            'PorterStemmer' => [new PorterStemmer()]
         ];
     }
 

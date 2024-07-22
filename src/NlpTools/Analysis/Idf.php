@@ -16,11 +16,16 @@ use NlpTools\FeatureFactories\DataAsFeatures;
  * Idf implements the ArrayAccess interface so it should be used
  * as a read only array that contains tokens as keys and idf values
  * as values.
+ *
+ * @implements \ArrayAccess<mixed, mixed>
  */
 class Idf implements \ArrayAccess
 {
     protected float $logD;
 
+    /**
+     * @var array<mixed, mixed>
+     */
     protected array $idf;
 
     /**

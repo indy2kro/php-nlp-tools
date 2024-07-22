@@ -14,12 +14,14 @@ abstract class Clusterer
      *
      * @param TrainingSet $trainingSet The documents to be clustered
      * @param FeatureFactoryInterface $featureFactory A feature factory to transform the documents given
-     * @return array                   The clusters, an array containing arrays of offsets for the documents
+     * @return array<int, mixed>       The clusters, an array containing arrays of offsets for the documents
      */
     abstract public function cluster(TrainingSet $trainingSet, FeatureFactoryInterface $featureFactory): array;
 
     /**
      * Helper function to transform a TrainingSet to an array of feature vectors
+     *
+     * @return array<int, mixed>
      */
     protected function getDocumentArray(TrainingSet $trainingSet, FeatureFactoryInterface $featureFactory): array
     {

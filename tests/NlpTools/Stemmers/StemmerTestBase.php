@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 class StemmerTestBase extends TestCase
 {
-    protected function checkStemmer(Stemmer $stemmer, \Iterator $words, \Iterator $stems)
+    protected function checkStemmer(Stemmer $stemmer, \Iterator $words, \Iterator $stems): void
     {
         foreach ($words as $word) {
             if ($word === false) {

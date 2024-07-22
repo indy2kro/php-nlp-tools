@@ -17,6 +17,8 @@ interface MergeStrategyInterface
     /**
      * Study the docs and preprocess anything required for
      * computing the merges
+     *
+     * @param array<int, mixed> $docs
      */
     public function initializeStrategy(DistanceInterface $distance, array &$docs): void;
 
@@ -24,7 +26,7 @@ interface MergeStrategyInterface
      * Return the next two clusters for merging and assume
      * they are merged (ex. update a similarity matrix)
      *
-     * @return array An array with two numbers which are the cluster ids
+     * @return array<int, mixed> An array with two numbers which are the cluster ids
      */
     public function getNextMerge(): array;
 }

@@ -14,8 +14,14 @@ namespace NlpTools\Utils;
  */
 class StopWords implements TransformationInterface
 {
+    /**
+     * @var array<string, mixed>
+     */
     protected array $stopwords;
 
+    /**
+     * @param array<int, string> $stopwords
+     */
     public function __construct(array $stopwords, protected ?TransformationInterface $transformation = null)
     {
         $this->stopwords = array_fill_keys(

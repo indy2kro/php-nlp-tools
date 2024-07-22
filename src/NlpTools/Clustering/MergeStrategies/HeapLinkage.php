@@ -25,10 +25,19 @@ abstract class HeapLinkage implements MergeStrategyInterface
 {
     protected int $L;
 
+    /**
+     * @var \SplPriorityQueue<mixed, mixed>
+     */
     protected \SplPriorityQueue $queue;
 
+    /**
+     * @var \SplFixedArray<mixed>
+     */
     protected \SplFixedArray $dm;
 
+    /**
+     * @var array<int, mixed>
+     */
     protected array $removed;
 
     /**
@@ -44,7 +53,7 @@ abstract class HeapLinkage implements MergeStrategyInterface
      * to calculate the merges later.
      *
      * @param DistanceInterface $distance The distance metric used to calculate the distance matrix
-     * @param array             $docs The docs to be clustered
+     * @param array<int, mixed> $docs The docs to be clustered
      */
     public function initializeStrategy(DistanceInterface $distance, array &$docs): void
     {
@@ -78,7 +87,7 @@ abstract class HeapLinkage implements MergeStrategyInterface
      *  3. Merge the clusters (by labeling one as removed)
      *  4. Reheap
      *
-     * @return array The pair (x,y) to be merged
+     * @return array<int, mixed> The pair (x,y) to be merged
      */
     public function getNextMerge(): array
     {
@@ -145,7 +154,7 @@ abstract class HeapLinkage implements MergeStrategyInterface
      * Note: y will always be larger than x
      *
      * @param  integer $index The index to be unraveled
-     * @return array   An array containing (y,x)
+     * @return array<int, mixed>   An array containing (y,x)
      */
     protected function unravelIndex(int $index): array
     {

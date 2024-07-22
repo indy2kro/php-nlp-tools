@@ -13,6 +13,9 @@ class HammingDistance implements DistanceInterface
 {
     /**
      * Count the number of positions that A and B differ.
+     *
+     * @param  array<int|string, mixed> $a Either a vector or a collection of tokens to be transformed to a vector
+     * @param  array<int|string, mixed> $b Either a vector or a collection of tokens to be transformed to a vector
      */
     public function dist(array &$a, array &$b): float
     {

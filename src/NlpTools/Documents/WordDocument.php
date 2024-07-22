@@ -12,12 +12,21 @@ use NlpTools\Utils\TransformationInterface;
  */
 class WordDocument implements DocumentInterface
 {
-    protected $word;
+    protected string $word;
 
+    /**
+     * @var array<int, string>
+     */
     protected array $before = [];
 
+    /**
+     * @var array<int, string>
+     */
     protected array $after = [];
 
+    /**
+     * @param array<int, string> $tokens
+     */
     public function __construct(array $tokens, int $index, int $context)
     {
         $this->word = $tokens[$index];
@@ -35,6 +44,8 @@ class WordDocument implements DocumentInterface
      * It returns an array with the first element being the actual word,
      * the second element being an array of previous words, and the
      * third an array of following words
+     *
+     * @return array<int, mixed>
      */
     public function getDocumentData(): array
     {

@@ -12,6 +12,9 @@ class EuclideanPoint implements DocumentInterface
     {
     }
 
+    /**
+     * @return array<string, int>
+     */
     public function getDocumentData(): array
     {
         return ['x' => $this->x, 'y' => $this->y];

@@ -47,6 +47,9 @@ class ClassifierBasedTokenizer implements TokenizerInterface
 {
     public const EOW = 'EOW';
 
+    /**
+     * @var array<int, string>
+     */
     protected static array $classSet = ['O', 'EOW'];
 
     // initial tokenizer
@@ -65,7 +68,7 @@ class ClassifierBasedTokenizer implements TokenizerInterface
      * 3. For each token that is not an EOW add it to the next EOW token using a separator
      *
      * @param  string $str The character sequence to be broken in tokens
-     * @return array  The token array
+     * @return array<int, mixed>  The token array
      */
     public function tokenize(string $str): array
     {

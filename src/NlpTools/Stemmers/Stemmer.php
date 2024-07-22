@@ -18,6 +18,9 @@ abstract class Stemmer implements TransformationInterface
 
     /**
      * Apply the stemmer to every single token.
+     *
+     * @param array<int, string> $tokens
+     * @return array<int, string>
      */
     public function stemAll(array $tokens): array
     {

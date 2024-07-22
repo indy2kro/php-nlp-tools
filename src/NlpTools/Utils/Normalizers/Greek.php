@@ -11,8 +11,14 @@ namespace NlpTools\Utils\Normalizers;
  */
 class Greek extends Normalizer
 {
+    /**
+     * @var array<int, string>
+     */
     protected static array $dirty = ['ά', 'έ', 'ό', 'ή', 'ί', 'ύ', 'ώ', 'ς'];
 
+    /**
+     * @var array<int, string>
+     */
     protected static array $clean = ['α', 'ε', 'ο', 'η', 'ι', 'υ', 'ω', 'σ'];
 
     public function normalize(string $w): string

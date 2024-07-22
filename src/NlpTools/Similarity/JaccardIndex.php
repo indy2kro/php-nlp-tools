@@ -11,6 +11,9 @@ class JaccardIndex implements SimilarityInterface, DistanceInterface
 {
     /**
      * The similarity returned by this algorithm is a number between 0,1
+     *
+     * @param  array<int|string, mixed> $a Either a vector or a collection of tokens to be transformed to a vector
+     * @param  array<int|string, mixed> $b Either a vector or a collection of tokens to be transformed to a vector
      */
     public function similarity(array &$a, array &$b): float
     {
@@ -25,6 +28,9 @@ class JaccardIndex implements SimilarityInterface, DistanceInterface
 
     /**
      * Jaccard Distance is simply the complement of the jaccard similarity
+     *
+     * @param  array<int|string, mixed> $a Either a vector or a collection of tokens to be transformed to a vector
+     * @param  array<int|string, mixed> $b Either a vector or a collection of tokens to be transformed to a vector
      */
     public function dist(array &$a, array &$b): float
     {
